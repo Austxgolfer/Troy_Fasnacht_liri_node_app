@@ -1,6 +1,6 @@
 require("dotenv").config();
 var keys = require("./keys.js");
-var spotify = new Spotify(keys.spotify);
+//var spotify = new Spotify(keys.spotify);
 var omdbQuery = "http://www.omdbapi.com";
 var bitQuery = "http://www.artists.bandsintown.com/bandsintown-api";
 
@@ -19,9 +19,10 @@ inquire.prompt([
         console.log("Your answers were:" + inquireresponse.dbSelect);
       break;
       case "Band":
-        console.log (inquireresonse);
+        console.log(inquireresponse.dbSelect);
       break;
       case "Movie":
-        console.log (inquireresopnse);
-      break;    
-    }};
+        console.log(inquireresponse.dbSelect);
+      break;   
+      }
+    });
