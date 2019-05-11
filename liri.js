@@ -38,7 +38,13 @@ inquire
         spotSrch = inquireresponse.songName;
         spotify.search({type:'track', query: spotSrch})
         .then(function(response) {
-          console.log(response);
+          var trackInfo = response.tracks.items[0];
+          console.log(trackInfo);
+          console.log("The Artist is " + trackInfo.artists[0].name);
+          console.log ("The album name is " + trackInfo.album.name);
+          console.log("The Song is " + trackInfo.name);
+          console.log("Preview link " + trackInfo.href);
+
         })
         .catch(function(err){console.log(err);});
       });
@@ -70,7 +76,7 @@ inquire
           .prompt([
             {
               type: "input",
-              message: "Enter the movie name you wish to find",
+              message: "Enter the movie name you wish to find? ",
               name: "movieName"
             }
           ])
@@ -83,19 +89,16 @@ inquire
             console.log(omdbQuery);
             axios.get(omdbQuery)
             .then(function(response) {
-              console.log(response.data);
-              console.log("The movie title is" + response.data.Title);
-              console.log("The movie was released in" + response.data.Year);
-              //console.log("The IMDB rating is" + response.data.Ratings[0].Value);
-              //console.log(
-                //"The Rotten Tomatoes ranking is" + response.data.Ratings[1].Value
-             // );
+              console.log("The movie title is " + response.data.Title);
+              console.log("The movie was released in " + response.data.Year);
+              console.log("The IMDB rating is " + response.data.Ratings[0].Value);
+              console.log("The Rotten Tomatoes ranking is " + response.data.Ratings[1].Value);
               console.log("The movie was producted in " + response.data.Country);
               console.log(
-                "The movie is available in the following languages:" +
+                "The movie is available in the following languages: " +
                   response.data.Language
               );
-              console.log("The movie plot is" + response.data.Plot);
+              console.log("The movie plot is " + response.data.Plot);
               console.log("The movie cast includes " + response.data.Actors);
             });
           });
