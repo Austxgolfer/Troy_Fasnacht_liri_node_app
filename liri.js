@@ -1,6 +1,7 @@
+var Spotify = require("node-spotify-api");
 require("dotenv").config();
 var keys = require("./keys.js");
-//var spotify = new Spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify);
 var omdbSrch, bitSrch, spotSrch;
 
 var bitQuery =
@@ -25,13 +26,46 @@ inquire
     console.log(dBase);
     switch (dBase) {
       case "Song":
-        console.log("Your answers were:" + inquireresponse.dbSelect);
+      inquire
+      .prompt([
+        {
+          type: "input",
+          message: "Enter the song you want Spotify information for.",
+          name: "songName"
+        }
+      ])
+      .then(function(inquireresponse){
+        spotSrch = inquireresponse.songName;
+        spotify.search({type:'track', query: spotSrch})
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(err){console.log(err);});
+      });
         break;
       case "Band":
-        console.log(inquireresponse.dbSelect);
+      inquire
+      .prompt([
+        {
+          type: "input",
+          message: "Enter the band you want information for.",
+          name: "bandName"
+        }
+      ])
+      .then(function(inquireresponse) {
+        if (inquireresponse.bandName === "") {artist = "Rick Astley";}
+        else {artist = inquireresponse.bandName;};
+        console.log(inquireresponse.bandName);
+        console.log(artist);
+        var bandQuery = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+        console.log(bandQuery);
+        axios.get(bandQuery)
+        .then(function(response) {
+          console.log(response);
+        });
+      });
         break;
       case "Movie":
-        console.log("movie case");
         inquire
           .prompt([
             {
@@ -41,11 +75,15 @@ inquire
             }
           ])
           .then(function(inquireresponse) {
-            omdbSrch = inquireresponse.movieName;
-            var omdbQuery = "http://www.omdbapi.com/?i=tt3896198&apikey=3741813d&?t=" + omdbSrch;
+            if (inquireresponse.movieName === "") {omdbSrch = "Mr. Nobody";}
+            else {omdbSrch = inquireresponse.movieName;};
+            console.log(inquireresponse.movieName);
+            console.log(omdbSrch);
+            var omdbQuery = "https://www.omdbapi.com/?apikey=3741813d&?s=" + omdbSrch;
+            console.log(omdbQuery);
             axios.get(omdbQuery)
             .then(function(response) {
-              console.log(response.data.Year);
+              console.log(response);
               console.log("The movie title is" + response.data.Title);
               console.log("The movie was released in" + response.data.Year);
               console.log("The IMDB rating is" + response.data.Ratings[0].Value);
