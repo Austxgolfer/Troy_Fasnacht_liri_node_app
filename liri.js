@@ -79,17 +79,17 @@ inquire
             else {omdbSrch = inquireresponse.movieName;};
             console.log(inquireresponse.movieName);
             console.log(omdbSrch);
-            var omdbQuery = "https://www.omdbapi.com/?apikey=3741813d&?s=" + omdbSrch;
+            var omdbQuery = "http://www.omdbapi.com/?i=tt3896198&apikey=3741813d&t=" + omdbSrch;
             console.log(omdbQuery);
             axios.get(omdbQuery)
             .then(function(response) {
-              console.log(response);
+              console.log(response.data);
               console.log("The movie title is" + response.data.Title);
               console.log("The movie was released in" + response.data.Year);
-              console.log("The IMDB rating is" + response.data.Ratings[0].Value);
-              console.log(
-                "The Rotten Tomatoes ranking is" + response.data.Ratings[1].Value
-              );
+              //console.log("The IMDB rating is" + response.data.Ratings[0].Value);
+              //console.log(
+                //"The Rotten Tomatoes ranking is" + response.data.Ratings[1].Value
+             // );
               console.log("The movie was producted in " + response.data.Country);
               console.log(
                 "The movie is available in the following languages:" +
